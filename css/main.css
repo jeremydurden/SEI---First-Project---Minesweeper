@@ -1,32 +1,30 @@
-* {
-  margin: 0;
-  padding: 0;
+*{
+  margin: 0px;
+  padding: 0px;
 }
 .menu {
-  display: grid;
-  width: 100%;
+  background: darkblue;
+  max-width: 80%;
 }
-.title{
-  margin: auto;
-  padding: 20px 0 20px 0;
+.dropDown{
+  position: relative;
+  display: inline-block;
 }
-.menu-button{
-  margin: 5px auto;
-  padding: 10px 0;
-  max-width: 100px;
+.dropDown button{
+  padding: 10px 40px;
+  font-size: 20px;
 }
-.game-board{
-  display: grid;
-  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-  width: 50vw;
-  height: 40vw;
-  padding: 0;
-  margin: 0 auto 25px;
+#dropContent{
+  position: absolute;
+  z-index: 1;
 }
-.game-button {
-  width: auto;
-  height: auto;
-  min-height: 50px;
-  outline: 1px solid;
-  background-color: lightcoral;
+#dropContent a{
+ display: block;
+ font-size: 18px; 
+ background: #dfdfdf;
+ color: black;
+ text-decoration: none;
+ padding: 10px 20px;
+ margin-top: 2px;
+
 }

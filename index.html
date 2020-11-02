@@ -1,123 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minesweeper</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script defer src="js/main.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Minesweeper</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script defer src="js/main.js"></script>
+    </head>
 <body>
-    <main>
-        <div class ="menu">
-            <h1 class="title">Minesweeper</h1>
-            <button class="menu-button" id="start button">START</button>
-            <button class="menu-button" id="reset button">RESET</button>
-            <button class="menu-button" id="rules button">RULES</button>
+<center>
+    <div class= "menu">
+        <div class="dropDown">
+            <button class="button" id="rulesButton">Rules</button>
+            <div style="display: none;" id="dropContent">
+                <a href="#">Rule 1: The game is over if you click on a tile with a bomb underneath</a>
+                <a href="#">Rule 2: To complete the game clear all of the tiles without bombs</a>
+                <a href="#">Rule 3: You may use your right-click to place a flag or a question mark to indicate a bomb or potential bomb</a>
+                <a href="#">Rule 4: After clearing a tile, numbers will remain indicate how many bombs the cleared tile is touching</a>
+                <a href="#">Rule 5: Have a blast!</a>
+            </div>
+
         </div>
-        
-        <div class ="game-board">
-            <button class="game-button" id="c1r1">A</button>
-            <button class="game-button" id="c2r1">A</button>
-            <button class="game-button" id="c3r1">A</button>
-            <button class="game-button" id="c4r1">A</button>
-            <button class="game-button" id="c5r1">A</button>
-            <button class="game-button" id="c6r1">A</button>
-            <button class="game-button" id="c7r1">A</button>
-            <button class="game-button" id="c8r1">A</button>
-            <button class="game-button" id="c9r1">A</button>
-            <button class="game-button" id="c10r1">A</button>
-            <button class="game-button" id="c1r2">B</button>
-            <button class="game-button" id="c2r2">B</button>
-            <button class="game-button" id="c3r2">B</button>
-            <button class="game-button" id="c4r2">B</button>
-            <button class="game-button" id="c5r2">B</button>
-            <button class="game-button" id="c6r2">B</button>
-            <button class="game-button" id="c7r2">B</button>
-            <button class="game-button" id="c8r2">B</button>
-            <button class="game-button" id="c9r2">B</button>
-            <button class="game-button" id="c10r2">B</button>
-            <button class="game-button" id="c1r3">C</button>
-            <button class="game-button" id="c2r3">C</button>
-            <button class="game-button" id="c3r3">C</button>
-            <button class="game-button" id="c4r3">C</button>
-            <button class="game-button" id="c5r3">C</button>
-            <button class="game-button" id="c6r3">C</button>
-            <button class="game-button" id="c7r3">C</button>
-            <button class="game-button" id="c8r3">C</button>
-            <button class="game-button" id="c9r3">C</button>
-            <button class="game-button" id="c10r3">C</button>
-            <button class="game-button" id="c1r4">D</button>
-            <button class="game-button" id="c2r4">D</button>
-            <button class="game-button" id="c3r4">D</button>
-            <button class="game-button" id="c4r4">D</button>
-            <button class="game-button" id="c5r4">D</button>
-            <button class="game-button" id="c6r4">D</button>
-            <button class="game-button" id="c7r4">D</button>
-            <button class="game-button" id="c8r4">D</button>
-            <button class="game-button" id="c9r4">D</button>
-            <button class="game-button" id="c10r4">D</button>
-            <button class="game-button" id="c1r5">E</button>
-            <button class="game-button" id="c2r5">E</button>
-            <button class="game-button" id="c3r5">E</button>
-            <button class="game-button" id="c4r5">E</button>
-            <button class="game-button" id="c5r5">E</button>
-            <button class="game-button" id="c6r5">E</button>
-            <button class="game-button" id="c7r5">E</button>
-            <button class="game-button" id="c8r5">E</button>
-            <button class="game-button" id="c9r5">E</button>
-            <button class="game-button" id="c10r5">E</button>
-            <button class="game-button" id="c1r6">F</button>
-            <button class="game-button" id="c2r6">F</button>
-            <button class="game-button" id="c3r6">F</button>
-            <button class="game-button" id="c4r6">F</button>
-            <button class="game-button" id="c5r6">F</button>
-            <button class="game-button" id="c6r6">F</button>
-            <button class="game-button" id="c7r6">F</button>
-            <button class="game-button" id="c8r6">F</button>
-            <button class="game-button" id="c9r6">F</button>
-            <button class="game-button" id="c10r6">F</button>
-            <button class="game-button" id="c1r7">G</button>
-            <button class="game-button" id="c2r7">G</button>
-            <button class="game-button" id="c3r7">G</button>
-            <button class="game-button" id="c4r7">G</button>
-            <button class="game-button" id="c5r7">G</button>
-            <button class="game-button" id="c6r7">G</button>
-            <button class="game-button" id="c7r7">G</button>
-            <button class="game-button" id="c8r7">G</button>
-            <button class="game-button" id="c9r7">G</button>
-            <button class="game-button" id="c10r7">G</button>
-            <button class="game-button" id="c1r8">H</button>
-            <button class="game-button" id="c2r8">H</button>
-            <button class="game-button" id="c3r8">H</button>
-            <button class="game-button" id="c4r8">H</button>
-            <button class="game-button" id="c5r8">H</button>
-            <button class="game-button" id="c6r8">H</button>
-            <button class="game-button" id="c7r8">H</button>
-            <button class="game-button" id="c8r8">H</button>
-            <button class="game-button" id="c9r8">H</button>
-            <button class="game-button" id="c10r8">H</button>
-            <button class="game-button" id="c1r9">I</button>
-            <button class="game-button" id="c2r9">I</button>
-            <button class="game-button" id="c3r9">I</button>
-            <button class="game-button" id="c4r9">I</button>
-            <button class="game-button" id="c5r9">I</button>
-            <button class="game-button" id="c6r9">I</button>
-            <button class="game-button" id="c7r9">I</button>
-            <button class="game-button" id="c8r9">I</button>
-            <button class="game-button" id="c9r9">I</button>
-            <button class="game-button" id="c10r9">I</button>
-            <button class="game-button" id="c1r10">J</button>
-            <button class="game-button" id="c2r10">J</button>
-            <button class="game-button" id="c3r10">J</button>
-            <button class="game-button" id="c4r10">J</button>
-            <button class="game-button" id="c5r10">J</button>
-            <button class="game-button" id="c6r10">J</button>
-            <button class="game-button" id="c7r10">J</button>
-            <button class="game-button" id="c8r10">J</button>
-            <button class="game-button" id="c9r10">J</button>
-            <button class="game-button" id="c10r10">J</button>
-        </div>
-    </main>
+    </div>
+</center>
 </body>
 </html>

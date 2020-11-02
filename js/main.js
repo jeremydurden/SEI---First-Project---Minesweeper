@@ -1,6 +1,20 @@
 //============Constants===================//
 
+const cells = {
+    bomb: {
+        exists: false,
+        imgUrl: "img.url"
+    },
+    flag: {
+        exists: false,
+        imgUrl: "img.url"
+    },
+    questionMark: {
+        exists: false,
+        imgUrl: "img.url"
+    }
 
+}
 
 
 
@@ -8,6 +22,8 @@
 
 //========== State ==========================//
 
+let bombsArray = [];
+let gameBoare = [];
 
 
 
@@ -26,7 +42,7 @@
 
 //============Event Listeners===================//
 
-
+document.getElementById('rulesButton').addEventListener('click', showHideRules);
 
 
 
@@ -35,6 +51,15 @@
 
 
 //============Functions===================//
+
+function showHideRules(){
+    let rulesClick = document.getElementById('dropContent');
+    if(rulesClick.style.display ==='none'){
+        rulesClick.style.display = "block";
+    } else {
+        rulesClick.style.display = "none";
+    }
+}
 
 
 //creating a random array of bombs that can correspond with the cells of my grid
