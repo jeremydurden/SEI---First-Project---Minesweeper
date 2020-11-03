@@ -1,20 +1,6 @@
 //============Constants===================//
 
-const cells = {
-    bomb: {
-        exists: false,
-        imgUrl: "img.url"
-    },
-    flag: {
-        exists: false,
-        imgUrl: "img.url"
-    },
-    questionMark: {
-        exists: false,
-        imgUrl: "img.url"
-    }
-
-}
+const gameBoard = document.querySelector(".gameBoard")
 
 
 
@@ -22,8 +8,11 @@ const cells = {
 
 //========== State ==========================//
 
-let bombsArray = [];
-let gameBoare = [];
+let gameBoardWidth = 10;
+let bombTotal = 25
+let cells = [];
+
+
 
 
 
@@ -34,7 +23,7 @@ let gameBoare = [];
 
 //============ Cached ========================//
 
-
+//images for flags, question mark, bomb
 
 
 
@@ -51,6 +40,19 @@ document.getElementById('rulesButton').addEventListener('click', showHideRules);
 
 
 //============Functions===================//
+//create grid - this allows me to pass initial values directly into an array instead of 
+// writing the divs in the html file and then adding the value to each one individually
+
+function createGameBoard(){
+   
+    for (let i = 0; i < 100; i++){
+        const cell = document.createElement('div');
+        cell.setAttribute('id', i);
+        gameBoard.appendChild(cell);
+        cells.push(cell)
+    }
+}
+
 
 function showHideRules(){
     let rulesClick = document.getElementById('dropContent');
@@ -61,6 +63,14 @@ function showHideRules(){
     }
 }
 
+function randomize(arr){
+    let 
+}
+
+
+
+
+createGameBoard();
 
 //creating a random array of bombs that can correspond with the cells of my grid
 
@@ -97,4 +107,6 @@ function showHideRules(){
 
 //init function
 
+function init(){
 
+}

@@ -4,18 +4,24 @@
 }
 .menu {
   background: darkblue;
-  max-width: 80%;
+  width: 500px;
+  margin-top: 50px;
+}
+.menu button{
+  padding: 10px 20px;
+  font-size: 15px;
 }
 .dropDown{
   position: relative;
   display: inline-block;
 }
 .dropDown button{
-  padding: 10px 40px;
-  font-size: 20px;
+  padding: 10px 20px;
+  font-size: 15px;
 }
 #dropContent{
   position: absolute;
+  padding: auto;
   z-index: 1;
 }
 #dropContent a{
@@ -27,4 +33,16 @@
  padding: 10px 20px;
  margin-top: 2px;
 
+}
+.gameBoard{
+  height: 500px;
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: grey;
+}
+
+.gameBoard div{
+  height: 50px;
+  width: 50px;
 }
