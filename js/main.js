@@ -19,6 +19,8 @@ const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 
 
+
+
 //============ Cached ========================//
 
 //images for flags, question mark, bomb
@@ -52,21 +54,46 @@ function createGameBoard(){
     }
 }
 
-function checkForBombs (clicked){
-        let bombCount = 0
-        let clicked = e.target.id
-        const leftSide = i % 10 === 0 && i != 0;
-        const rightSide = (i + 1) % 10 === 0;
+function checkForBombs (e){
+    let bombCount = 0
+    let clicked = e.target;
+    let clickedID = parseInt(clicked.id)
+    let leftSide = clickedID % 10 === 0;
+    console.log(leftSide, 'leftSide')
+    let rightSide = (clickedID + 1) % 10 === 0;
+    console.log(rightSide, 'rightSide')
 
-    if (clicked.classList.contains('safe'))
-        if (clicked > 0 && !leftSide && cells[clicked-1].classList.contains('bomb')){
+    if (clicked.classList.contains('safe')){
+        if (clickedID > 0 && !leftSide && cells[clickedID-1].classList.contains('bomb')){
             bombCount++;
         }
-        if (clicked < 98 && !rightSide && cells[clicked+1].classList.contains('bomb')){
+        if (clickedID < 99 && !rightSide && cells[clickedID+1].classList.contains('bomb')){
             bombCount++;
         }
-        
+        if (clickedID > 9 && cells[clickedID-10].classList.contains('bomb')){
+            bombCount++;
+        }
+        if (clickedID < 90 && cells[clickedID+10].classList.contains('bomb')){
+            bombCount++;
+        }
+        if (clickedID > 10 && !leftSide && cells[clickedID-11].classList.contains('bomb')){
+            bombCount++;
+        }
+        if (clickedID > 9 && !rightSide && cells[clickedID-9].classList.contains('bomb')){
+            bombCount++;
+        }
+        if (clickedID < 90 && !leftSide && cells[clickedID+9].classList.contains('bomb')){
+            bombCount++;
+        }
+        if (clickedID < 90 && !rightSide && cells[clickedID+11].classList.contains('bomb')){
+            bombCount++;
+        }
+        clicked.setAttribute('bombsNearby', bombCount);
+    } else {
+        console.log('game-over')
+    }
 }
+
 
 
 
