@@ -12,8 +12,10 @@ let gameBoardWidth = 10;
 let bombTotal = 25
 let cells = [];
 
-
-
+const bombArray = Array(bombTotal).fill('bomb');
+const theSafeCells = Array(gameBoardWidth*gameBoardWidth - bombTotal).fill('safe');
+const bombsAndSafeCells = bombArray.concat(theSafeCells);
+const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 
 
@@ -32,7 +34,7 @@ let cells = [];
 //============Event Listeners===================//
 
 document.getElementById('rulesButton').addEventListener('click', showHideRules);
-
+document.getElementById('startButton').addEventListener('click', init);
 
 
 
@@ -44,10 +46,11 @@ document.getElementById('rulesButton').addEventListener('click', showHideRules);
 // writing the divs in the html file and then adding the value to each one individually
 
 function createGameBoard(){
-   
-    for (let i = 0; i < 100; i++){
+    
+    for (let i = 0; i < gameBoardWidth*gameBoardWidth; i++){
         const cell = document.createElement('div');
         cell.setAttribute('id', i);
+        cell.classList.add(bombsAndSafeCellsMixed[i])
         gameBoard.appendChild(cell);
         cells.push(cell)
     }
@@ -63,14 +66,16 @@ function showHideRules(){
     }
 }
 
-function randomize(arr){
-    let 
-}
 
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
-
-createGameBoard();
 
 //creating a random array of bombs that can correspond with the cells of my grid
 
@@ -108,5 +113,5 @@ createGameBoard();
 //init function
 
 function init(){
-
+    createGameBoard()
 }
