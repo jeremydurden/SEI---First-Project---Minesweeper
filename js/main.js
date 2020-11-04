@@ -1,6 +1,6 @@
 //============Constants===================//
 
-const gameBoard = document.querySelector(".gameBoard")
+const gameBoard = document.querySelector('.gameBoard')
 
 
 
@@ -19,10 +19,6 @@ const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 
 
-
-
-
-
 //============ Cached ========================//
 
 //images for flags, question mark, bomb
@@ -35,7 +31,7 @@ const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 document.getElementById('rulesButton').addEventListener('click', showHideRules);
 document.getElementById('startButton').addEventListener('click', init);
-
+document.querySelector('.gameBoard').addEventListener('click', checkForBombs)
 
 
 
@@ -55,6 +51,23 @@ function createGameBoard(){
         cells.push(cell)
     }
 }
+
+function checkForBombs (clicked){
+        let bombCount = 0
+        let clicked = e.target.id
+        const leftSide = i % 10 === 0 && i != 0;
+        const rightSide = (i + 1) % 10 === 0;
+
+    if (clicked.classList.contains('safe'))
+        if (clicked > 0 && !leftSide && cells[clicked-1].classList.contains('bomb')){
+            bombCount++;
+        }
+        if (clicked < 98 && !rightSide && cells[clicked+1].classList.contains('bomb')){
+            bombCount++;
+        }
+        
+}
+
 
 
 function showHideRules(){
