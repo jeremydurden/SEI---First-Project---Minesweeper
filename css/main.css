@@ -54,3 +54,6 @@
 .bomb{
   background-color: red;
 }
+.checked{
+  background-color: green;
+}
