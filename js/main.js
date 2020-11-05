@@ -14,8 +14,11 @@ let cells = [];
 let gameOver = false;
 //creating a random array of bombs that can correspond with the cells of my grid
 const bombArray = Array(bombTotal).fill('bomb');
+//array Constructor to create an array with "safe"
 const theSafeCells = Array(gameBoardWidth*gameBoardWidth - bombTotal).fill('safe');
+//concat to join the safe array and the bomb array;
 const bombsAndSafeCells = bombArray.concat(theSafeCells);
+//shuffle function to mix the joined arrays
 const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 
@@ -34,7 +37,7 @@ const flagImage =
 
 document.getElementById('rulesButton').addEventListener('click', showHideRules);
 document.getElementById('startButton').addEventListener('click', init);
-document.querySelector('.gameBoard').addEventListener('click', checkForBombs)
+//document.querySelector('.gameBoard').addEventListener('click', checkForBombs)
 //document.querySelector('.gameBoard').addEventListener('contextmenu', setFlag)
 
 
@@ -45,18 +48,31 @@ document.querySelector('.gameBoard').addEventListener('click', checkForBombs)
 // writing the divs in the html file and then adding the value to each one individually
 
 function createGameBoard(){
-    
+    //iterates through the the area of the gameboard creating divs
+    //each div is assigned an id number equal to the iteration
+    //each div is also assigned a class of 'bomb' or 'safe' that is equal to the bombsAndSafeCellsMixed index value of i
+    //the divs are appended to the gameboard container and pushed to the cells array with a matching index of i
+    //the event listener was placed here because of the scope of cell and because adding it to the parent-gameBoard
+    //caused the recursive function to fill the entire board
     for (let i = 0; i < gameBoardWidth*gameBoardWidth; i++){
         const cell = document.createElement('div');
         cell.setAttribute('id', i);
         cell.classList.add(bombsAndSafeCellsMixed[i])
         gameBoard.appendChild(cell);
         cells.push(cell)
+        cell.addEventListener('click', function(e){
+            checkForBombs(cell)
+        })
+
     }
     for (let i = 0; i < cells.length; i++){
+        //this for loop checks each divs and if the class is 'safe' it checks all of the surrounding divs
+        //avoiding the edges to see if they contain the class 'bomb'
+        //if they do contain bomb, it updates the bombCount variable by one possible values 1-8
+        //the bombCount is then added to the div as a bombsNearby value
         let bombCount = 0
-        const leftSide = i % 10 === 0;
-        const rightSide = (i + 1) % 10 === 0;
+        const leftSide = i % gameBoardWidth === 0;
+        const rightSide = (i % gameBoardWidth) === gameBoardWidth -1;
         if (cells[i].classList.contains('safe')){
             if (i > 0 && !leftSide && cells[i-1].classList.contains('bomb')){
                 bombCount++;
@@ -84,78 +100,87 @@ function createGameBoard(){
             }
             cells[i].setAttribute('bombsNearby', bombCount);
     }
+
 }
 }
 
 //using an click listener and checking if the cell is a bomb - if it is you lose
 //otherwise move on to check neighboring cells
 //checking if neighboring cells are bombs
-function checkForBombs (e){
-    let clicked = e.target;
-    console.log(clicked, 'this is click checkForBombs')
-    if (gameOver){
-        return;
-    }
-    if (clicked.classList.contains('flagged') || clicked.classList.contains('checked')) {
-        return;
-    } else{
-        clicked.classList.add('checked');
-        let nearbyBombs = clicked.getAttribute('bombsNearby')
+function checkForBombs (cell){
+    let currentID =  cell.id
+    // doesn't trigger the loop is the game is over and you click another cell
+    if (gameOver) return
+    // doesn't trigger the loop if the cell is a bomb
+    if (cell.classList.contains('bomb')) return
+    //stops the the cell is flagged or if it already has the checked class
+    if (cell.classList.contains('flagged') || cell.classList.contains('checked')) return
+        else{
+        //if the cell has bombsNearby this adds that number to the HTML so we see it on the grid
+        let nearbyBombs = cell.getAttribute('bombsNearby')
         if (nearbyBombs > 0){
-        clicked.innerHTML = nearbyBombs
-        return}
-        checkSurroundings(clicked)
+            cell.classList.add('checked');
+            cell.innerHTML = nearbyBombs
+            return
+        }
     }
+    //this adds the checked class to the cell we've clicked and the runs calls the checkSurroundings
+    //function passing in the clicked cell and it's id
+    cell.classList.add('checked');
+    checkSurroundings(cell, currentID)
      
 }
 
 
-
-function checkSurroundings(clicked){
-    console.log(clicked, 'this is clicked')
-    let clickedID = parseInt(clicked.id)
-    console.log(clickedID, 'this is clickedID')
-    let leftSide = clickedID % 10 === 0;
-    let rightSide = (clickedID + 1) % 10 === 0;
-
+// check the squares around the square that was clicked and passes each back to the checkForBombs()
+function checkSurroundings(cell, currentID){
+    const leftSide = currentID % gameBoardWidth === 0;
+    const rightSide = (currentID % gameBoardWidth) === gameBoardWidth -1;
+    //setTimeout is a built in function that tells the code in the brackets not to execute until
+    //after a certain period.  In this case, 10ms, allowing checked status to be updated.
     setTimeout(() => {
-        if (clickedID > 0 && !leftSide){
-            const iD = cells[clickedID-1]
+        //these if statements look at the surrounding cells and determine if they are on an edge
+        //if they are not on an edge they are passed back to the check for bombs function
+        //that function will check their status and potentially pass them back to the checkSurroundings
+        //function again to then check the neighboring cells of that function.  This continues until
+        //
+        if (currentID > 0 && !leftSide){
+            const iD = cells[parseInt(currentID)-1].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);
             };
-        if (clickedID < 99 && !rightSide){
-            const iD = cells[clickedID+1]
+        if (currentID > 9 && !rightSide){
+            const iD = cells[parseInt(currentID)+1 -gameBoardWidth].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);
             };
-        if (clickedID > 9){
-            const iD = cells[clickedID-10]
+        if (currentID > 10){
+            const iD = cells[parseInt(currentID) + 1 -gameBoardWidth].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);    
             };
-        if (clickedID < 90){
-            const iD = cells[clickedID+10]
+        if (currentID > 11 && !leftSide){
+            const iD = cells[parseInt(currentID)-1 -gameBoardWidth].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);    
             };
-        if (clickedID > 10 && !leftSide){
-            const iD = cells[clickedID-11]
+        if (currentID < 98 && !rightSide){
+            const iD = cells[parseInt(currentID)+1].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);
             };
-        if (clickedID > 9 && !rightSide){
-            const iD = cells[clickedID-9]
+        if (currentID < 90 && !leftSide){
+            const iD = cells[parseInt(currentID)-1 +gameBoardWidth].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);
             };
-        if (clickedID < 90 && !leftSide){
-            const iD = cells[clickedID+9]
+        if (currentID < 88 && !rightSide){
+            const iD = cells[parseInt(currentID)+1 +gameBoardWidth].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);    
             };
-        if (clickedID < 90 && !rightSide){
-            const iD = cells[clickedID+11]
+        if (currentID < 89){
+            const iD = cells[parseInt(currentID)+gameBoardWidth].id
             const newCell = document.getElementById(iD);
             checkForBombs(newCell);    
             }; 
@@ -163,7 +188,7 @@ function checkSurroundings(clicked){
 }
 
 
-
+// changes the style of the anchors in the drop down windw to make them disappear or show
 function showHideRules(){
     let rulesClick = document.getElementById('dropContent');
     if(rulesClick.style.display ==='none'){
@@ -174,7 +199,7 @@ function showHideRules(){
 }
 
 
-
+//uses the Fisher-Yates algorithm to shuffle an array
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
@@ -187,18 +212,11 @@ function shuffle(array) {
 
 
 
-//a timer that counts up by seconds and minutes to track how long it takes to finish
 
 
 
 
-//checking if neighboring cells are bombs and clearing up to the edge of where they are
-//touching a bomb and then numbering how many bombs they are touching
-//checking if I am on an edge or not and how to know which surrounding cells to check
 
-
-
-//right click to mark with a flag, ?, or clear
 
 // function setFlag(e){
 //     let rightClicked = e.target;
@@ -206,10 +224,6 @@ function shuffle(array) {
 //     const 
 //     rightClicked.appendChild()
 // }
-
-
-
-//display win or lose messages with total time
 
 
 
