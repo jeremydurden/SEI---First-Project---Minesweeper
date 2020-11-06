@@ -51,9 +51,15 @@
   width: 50px;
 }
 
-.bomb{
+/* .bomb{
   background-color: red;
-}
+} */
 .checked{
   background-color: green;
+}
+.reset{
+  style: none;
+}
+.flagged{
+  background-color: blue;
 }

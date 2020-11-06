@@ -9,9 +9,31 @@ const gameBoard = document.querySelector('.gameBoard')
 //========== State ==========================//
 
 let gameBoardWidth = 10;
-let bombTotal = 25
+let bombTotal = 5
+let flags = 0;
 let cells = [];
 let gameOver = false;
+
+
+
+
+
+//============ Cached ========================//
+
+//images for flags, question mark, bomb
+
+const flagImageUrl = 'imgs/flag.png'
+
+
+
+
+
+const bombImageUrl = 'imgs/bomb.png'
+
+
+
+
+
 //creating a random array of bombs that can correspond with the cells of my grid
 const bombArray = Array(bombTotal).fill('bomb');
 //array Constructor to create an array with "safe"
@@ -23,23 +45,11 @@ const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 
 
-
-
-//============ Cached ========================//
-
-//images for flags, question mark, bomb
-
-const flagImage = 
-
-
-
 //============Event Listeners===================//
 
 document.getElementById('rulesButton').addEventListener('click', showHideRules);
 document.getElementById('startButton').addEventListener('click', init);
-//document.querySelector('.gameBoard').addEventListener('click', checkForBombs)
-//document.querySelector('.gameBoard').addEventListener('contextmenu', setFlag)
-
+document.querySelector('.reset').addEventListener('click', reset)
 
 
 
@@ -63,7 +73,13 @@ function createGameBoard(){
         cell.addEventListener('click', function(e){
             checkForBombs(cell)
         })
-
+        //attaches a rick-click event listener and stops the normal action which opens up
+        //the context menu.  Instead it calls the anonymous function which calls the addFlag()
+        //on the event - ie right-click/contextmenu
+        cell.addEventListener('contextmenu', function(e){
+            e.preventDefault();
+            addFlag(cell);
+        })
     }
     for (let i = 0; i < cells.length; i++){
         //this for loop checks each divs and if the class is 'safe' it checks all of the surrounding divs
@@ -100,7 +116,6 @@ function createGameBoard(){
             }
             cells[i].setAttribute('bombsNearby', bombCount);
     }
-
 }
 }
 
@@ -112,7 +127,11 @@ function checkForBombs (cell){
     // doesn't trigger the loop is the game is over and you click another cell
     if (gameOver) return
     // doesn't trigger the loop if the cell is a bomb
-    if (cell.classList.contains('bomb')) return
+    if (cell.classList.contains('bomb')){
+        gameOverDude(cell)
+        document.querySelector('.message').innerHTML = "Sorry, You Lose :("
+        return
+    }
     //stops the the cell is flagged or if it already has the checked class
     if (cell.classList.contains('flagged') || cell.classList.contains('checked')) return
         else{
@@ -208,25 +227,64 @@ function shuffle(array) {
     return array;
   }
 
+//game over
+
+function gameOverDude(cell){
+    console.log("that's all folks!")
+    gameOver = true;
+    cells.forEach(cell => {
+        if (cell.classList.contains('bomb')) {
+            cell.innerHTML = 'bomb'
+            
+        }
+    })
+}
+
+function addFlag(cell){
+    if (gameOver) return
+    //If the div isn't already checked and there are fewer flags than bombs left proceed
+    if (!cell.classList.contains('checked') && (flags < bombTotal)){
+        // if the div isn't already flagged, change its classed to flagged, add a flag, and add
+        //one to the flag total
+        if (!cell.classList.contains('flagged')){
+            cell.classList.add('flagged');
+            flags ++;
+            didIWin()
+        } else {
+            //otherwise, remove the flag, removed the 'flagged' class, and remove one flag from total flags
+            cell.classList.remove('flagged');
+            flags --;
+        }
+    }
+}
+
+function didIWin(){
+    //how many bombs have we flagged already
+    let found = 0
+    for (let i = 0; i < cells.length; i++){
+        //check all the divs in the cell array and see how many contain the classes 'flagged' and 'bomb'
+        //if they have both, add 1 to the found bombs variable
+        if (cells[i].classList.contains('flagged') && cells[i].classList.contains('bomb')){
+            found++;
+        }
+    }
+    if (found === bombTotal){
+        //Once the number of flagged bombs equals the number of bombs, the game is over and the player wins
+        gameOver = true;
+        document.querySelector('.message').innerHTML = "You're a winner, Harry. (∩｀-´)⊃━☆ﾟ.*･｡ﾟ"
+
+    }
+}
+
+function reset(){
+    document.location.reload(true)
+}
 
 
 
-
-
-
-
-
-
-
-// function setFlag(e){
-//     let rightClicked = e.target;
-//     rightClicked.classList.add('flagged');
-//     const 
-//     rightClicked.appendChild()
-// }
-
-
-
+function render(){
+    createGameBoard()
+}
 
 
 
@@ -235,6 +293,6 @@ function shuffle(array) {
 //init function
 
 function init(){
-    createGameBoard()
+    render()
 }
 
