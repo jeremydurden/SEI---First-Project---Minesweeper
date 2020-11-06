@@ -6,6 +6,8 @@
   background: darkblue;
   width: 500px;
   margin-top: 50px;
+  box-sizing: border-box;
+  border: 2px ridge #6e6ec0;
 }
 .menu button{
   padding: 10px 20px;
@@ -49,16 +51,20 @@
 .gameBoard div{
   height: 50px;
   width: 50px;
+  box-sizing: border-box;
+  border: 4px outset grey;
 }
 
-/* .bomb{
-  background-color: red;
-} */
+
 .checked{
-  background-color: green;
+  background-color: rgb(20, 82, 183);
+  box-sizing: border-box;
+  border: 4px inset rgb(11, 92, 205) !important;
 }
 .reset{
-  style: none;
+  margin-top: 3px;
+  padding: 7px 10px;
+  font-size: 15px;
 }
 .flagged{
   background-color: blue;

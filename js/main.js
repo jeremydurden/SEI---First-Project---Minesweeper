@@ -4,8 +4,6 @@ const gameBoard = document.querySelector('.gameBoard')
 
 
 
-
-
 //========== State ==========================//
 
 let gameBoardWidth = 10;
@@ -16,8 +14,6 @@ let gameOver = false;
 
 
 
-
-
 //============ Cached ========================//
 
 //images for flags, question mark, bomb
@@ -25,13 +21,7 @@ let gameOver = false;
 const flagImageUrl = 'imgs/flag.png'
 
 
-
-
-
 const bombImageUrl = 'imgs/bomb.png'
-
-
-
 
 
 //creating a random array of bombs that can correspond with the cells of my grid
@@ -44,7 +34,6 @@ const bombsAndSafeCells = bombArray.concat(theSafeCells);
 const bombsAndSafeCellsMixed = shuffle(bombsAndSafeCells);
 
 
-
 //============Event Listeners===================//
 
 document.getElementById('rulesButton').addEventListener('click', showHideRules);
@@ -52,11 +41,9 @@ document.getElementById('startButton').addEventListener('click', init);
 document.querySelector('.reset').addEventListener('click', reset)
 
 
-
 //============Functions===================//
 //create grid - this allows me to pass initial values directly into an array instead of 
 // writing the divs in the html file and then adding the value to each one individually
-
 function createGameBoard(){
     //iterates through the the area of the gameboard creating divs
     //each div is assigned an id number equal to the iteration
@@ -72,6 +59,7 @@ function createGameBoard(){
         cells.push(cell)
         cell.addEventListener('click', function(e){
             checkForBombs(cell)
+            console.log(e.target)
         })
         //attaches a rick-click event listener and stops the normal action which opens up
         //the context menu.  Instead it calls the anonymous function which calls the addFlag()
@@ -230,7 +218,6 @@ function shuffle(array) {
 //game over
 
 function gameOverDude(cell){
-    console.log("that's all folks!")
     gameOver = true;
     cells.forEach(cell => {
         if (cell.classList.contains('bomb')) {
