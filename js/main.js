@@ -59,7 +59,6 @@ function createGameBoard(){
         cells.push(cell)
         cell.addEventListener('click', function(e){
             checkForBombs(cell)
-            console.log(e.target)
         })
         //attaches a rick-click event listener and stops the normal action which opens up
         //the context menu.  Instead it calls the anonymous function which calls the addFlag()
@@ -221,7 +220,7 @@ function gameOverDude(cell){
     gameOver = true;
     cells.forEach(cell => {
         if (cell.classList.contains('bomb')) {
-            cell.innerHTML = 'bomb'
+            cell.innerHTML = '💣'
             
         }
     })
@@ -236,6 +235,7 @@ function addFlag(cell){
         if (!cell.classList.contains('flagged')){
             cell.classList.add('flagged');
             flags ++;
+            cell.innerHTML = ('🧙‍♂️')
             didIWin()
         } else {
             //otherwise, remove the flag, removed the 'flagged' class, and remove one flag from total flags
